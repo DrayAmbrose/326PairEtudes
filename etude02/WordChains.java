@@ -2,18 +2,19 @@
  * Etude02 WordChains
  * Filename: WordChains.java
  * COSC326 Semester 1
- * 11th March 2021
+ * 19th March 2021
  * @author Dray Ambrose 9742599
  * @author Jayden Prakash 4718680 
 */
 
 import java.util.*;
-import java.lang.StringBuilder;
 
 public class WordChains{
 
     public static void main(String[] args){
         getInput();
+        String str = "Hello I'm your String";
+        String[] splited = str.split(" ");
         
     }
 
@@ -31,9 +32,19 @@ public class WordChains{
     while (input.hasNextLine()) {
       words.add(input.nextLine());
     }
-    for(String x: words){
-            System.out.println(x);
+    for(String x: problems){
+      int steps = 0;
+      if(x.split(" ").length == 3){
+        steps = Integer.parseInt(x.split(" ")[2]);
+      }
+      String first = x.split(" ")[0];
+      String second = x.split(" ")[1];
+      findWordChain(first, second, steps);
         }
-
      }
-}
+
+
+    private static void findWordChain(String first, String second, int steps){
+       System.out.println(first + " " + second + " " + steps);
+     }
+     }
