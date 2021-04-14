@@ -1,13 +1,6 @@
-cat cup
-cap cup 4
-cat dog 3
-emu kea
-flu covid
-car cat
+ape lot
 
-cat
-cup
-dog
-cap
-cut
-elephant
+ape
+lot
+aoe
+aot
