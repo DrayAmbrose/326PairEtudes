@@ -1,3 +1,4 @@
+
 /**
  * Etude02 WordChains
  * Filename: WordChains.java
@@ -9,29 +10,16 @@
 
 import java.util.*;
 
-public class WordChains{
+public class WordChains {
+  private static HashMap<String, ArrayList<String>> dictionaryMap = new HashMap<>(); // contains every word in the
+                                                                                     // dictionary and each words
+                                                                                     // "adjacent" words
+  
+  private static ArrayList<String> dictionary = new ArrayList<>();
+  private static ArrayList<String> problems = new ArrayList<>();
 
-    public static void main(String[] args){
-        getInput();
-        String str = "Hello I'm your String";
-        String[] splited = str.split(" ");
-        
-    }
-
-     private static void getInput(){
-        Scanner input = new Scanner(System.in);
-    ArrayList<String> problems = new ArrayList<>();
-    while (input.hasNextLine()) {
-      String prob = input.nextLine();
-      if (prob.trim().equals("")) {
-        break;
-      }
-      problems.add(prob);
-    }
-    ArrayList<String> words = new ArrayList<>();
-    while (input.hasNextLine()) {
-      words.add(input.nextLine());
-    }
+  public static void main(String[] args) {
+    getInput();
     for(String x: problems){
       int steps = 0;
       if(x.split(" ").length == 3){
@@ -39,12 +27,107 @@ public class WordChains{
       }
       String first = x.split(" ")[0];
       String second = x.split(" ")[1];
-      findWordChain(first, second, steps);
+      System.out.println(shortestPath(first, second));
+    }
+
+  }
+
+  private static void getInput() {
+    Scanner input = new Scanner(System.in);
+    while (input.hasNextLine()) {
+      String prob = input.nextLine();
+      if (prob.trim().equals("")) {
+        break;
+      }
+      problems.add(prob);
+    }
+
+    while (input.hasNextLine()) {
+      String word = input.nextLine();
+      dictionary.add(word);
+      dictionaryMap.put(word, new ArrayList<String>());
+
+    }
+    int dCount; // Count lettter differences 
+    for(String key: dictionaryMap.keySet()){
+      char[] keys = key.toCharArray();
+      for(String word: dictionary){
+        dCount = 0;
+        char[] wordArr = word.toCharArray();
+        // if(keys.length != word.length()){
+        //   break;
+        // }
+        for(int i = 0; i < word.length(); i++){
+          if(keys[i] != wordArr[i]) // If letters differ, increment the diff count
+            dCount++; 
         }
-     }
+        if(dCount==1) //If the difference is 1 then the words are 'adjacent'
+          dictionaryMap.get(key).add(word);
+    }
+  }
+}
 
+  public static String shortestPath(String word1, String word2){
+    HashMap<String, Boolean> usedWords = new HashMap<>();
+    if(word1.equals(word2)){
+      return word1 + " " + word2;
+    }
 
-    private static void findWordChain(String first, String second, int steps){
-       System.out.println(first + " " + second + " " + steps);
-     }
-     }
+    ArrayList<Set<String>> adjacencyList = new ArrayList<>();
+    if(dictionary.contains(word1) && dictionary.contains(word2)){ // If one of the words has no adjacent words in the dictionary
+      if(dictionaryMap.get(word1).size()==0 || dictionaryMap.get(word2).size() == 0){
+        return word1 + " " + word2 + " impossible";
+      }
+      adjacencyList.add(new TreeSet<String>());
+      adjacencyList.get(0).add(word1);
+      boolean found = false;
+      int usedWordsCount = -1;
+
+      while(!found){
+        if(usedWords.size() == usedWordsCount){
+          return word1 + " " + word2 + " impossible";
+        }else{
+         usedWordsCount = usedWords.size();
+        }
+        Set<String> nextLevel = new TreeSet<>(); // handles the next level of the tree
+        
+        for(Set<String> level: adjacencyList){//for each level of the adjacency list
+          for(String w: level){ //for each word in the current level of the tree
+            if(!usedWords.containsKey(w)){
+              usedWords.put(w, true);
+              for(String k: dictionaryMap.get(w)){
+                nextLevel.add(k);
+              }
+            }
+          }
+        }
+        if(nextLevel.contains(word2)){
+          found = true;
+          adjacencyList.add(nextLevel);
+        }else{
+          adjacencyList.add(nextLevel);
+        }
+      }
+      ArrayList<String> wordChain = new ArrayList<>();
+      String currentWord = word2;
+      for(int i = adjacencyList.size()-2; i>= 0; i--){
+        wordChain.add(currentWord);
+        for(String s: adjacencyList.get(i)){
+          if(dictionaryMap.get(s).contains(currentWord)){
+            currentWord =s;
+          }
+        }
+      }
+      wordChain.add(word1);
+      String chain ="";
+      for(int i = wordChain.size()-1; i>=0; i--){
+        chain += wordChain.get(i).toUpperCase() + " ";
+      }
+      return chain;
+    }else{
+      return word1 + " " + word2 + " impossible";
+    
+  }
+
+  }
+}
