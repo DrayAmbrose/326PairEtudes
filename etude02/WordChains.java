@@ -15,7 +15,7 @@ public class WordChains {
                                                                                      // dictionary and each words
                                                                                      // "adjacent" words
   
-  private static ArrayList<String> dictionary = new ArrayList<>();
+  private static HashSet<String> dictionary = new HashSet<String>();
   private static ArrayList<String> problems = new ArrayList<>();
 
   public static void main(String[] args) {
@@ -29,6 +29,7 @@ public class WordChains {
       String second = x.split(" ")[1];
       System.out.println(shortestPath(first, second));
     }
+    
 
   }
 
@@ -50,22 +51,39 @@ public class WordChains {
     }
     int dCount; // Count lettter differences 
     for(String key: dictionaryMap.keySet()){
-      char[] keys = key.toCharArray();
-      for(String word: dictionary){
-        dCount = 0;
-        char[] wordArr = word.toCharArray();
-        // if(keys.length != word.length()){
-        //   break;
-        // }
-        for(int i = 0; i < word.length(); i++){
-          if(keys[i] != wordArr[i]) // If letters differ, increment the diff count
-            dCount++; 
+      
+      for(int i=0;i<key.length();i++){
+        char[] keys = key.toCharArray();
+        for(char c = 'a'; c<= 'z'; c++){
+          keys[i]= c;
+          String word = String.valueOf(keys);
+          if(dictionary.contains(word)){
+            dictionaryMap.get(key).add(word);
+          }
         }
-        if(dCount==1) //If the difference is 1 then the words are 'adjacent'
-          dictionaryMap.get(key).add(word);
+      }
     }
   }
-}
+
+  //     for(String word: dictionary){
+  //       dCount = 0;
+  //       char[] wordArr = word.toCharArray();
+        
+  //       for(int i = 0; i < word.length(); i++){
+  //         if(keys.length != word.length()){
+  //           break;
+  //         }else if(keys[i] != wordArr[i]) // If letters differ, increment the diff count
+  //           dCount++; 
+  //       }
+  //       if(dCount==1){ //If the difference is 1 then the words are 'adjacent'
+  //         dictionaryMap.get(key).add(word);
+  //         System.out.println(key + " " + word);
+
+  //     }
+  //   }
+  // }
+  // }
+
 
   public static String shortestPath(String word1, String word2){
     HashMap<String, Boolean> usedWords = new HashMap<>();
@@ -108,6 +126,7 @@ public class WordChains {
           adjacencyList.add(nextLevel);
         }
       }
+
       ArrayList<String> wordChain = new ArrayList<>();
       String currentWord = word2;
       for(int i = adjacencyList.size()-2; i>= 0; i--){
@@ -115,13 +134,14 @@ public class WordChains {
         for(String s: adjacencyList.get(i)){
           if(dictionaryMap.get(s).contains(currentWord)){
             currentWord =s;
+            break;
           }
         }
       }
       wordChain.add(word1);
       String chain ="";
       for(int i = wordChain.size()-1; i>=0; i--){
-        chain += wordChain.get(i).toUpperCase() + " ";
+        chain += wordChain.get(i) + " ";
       }
       return chain;
     }else{

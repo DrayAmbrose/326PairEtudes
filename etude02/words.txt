@@ -1,12 +1,9 @@
-wallet accept
+bomb home
 
-wallet
-wallpt
-walept
-wacept
-wccept
-accept
 aardvark
+bome
+bomb
+home
 aardwolf
 aaron
 aback
