@@ -11,7 +11,7 @@
 import java.util.*;
 
 public class WordChains {
-  private static HashMap<String, ArrayList<String>> dictionaryMap = new HashMap<>(); // contains every word in the
+  private static HashMap<String, ArrayList<String>> adjacentWords = new HashMap<>(); // contains every word in the
                                                                                      // dictionary and each words
                                                                                      // "adjacent" words
   
@@ -46,11 +46,12 @@ public class WordChains {
     while (input.hasNextLine()) {
       String word = input.nextLine();
       dictionary.add(word);
-      dictionaryMap.put(word, new ArrayList<String>());
+      adjacentWords.put(word, new ArrayList<String>());
 
     }
+    input.close();
     int dCount; // Count lettter differences 
-    for(String key: dictionaryMap.keySet()){
+    for(String key: adjacentWords.keySet()){
       
       for(int i=0;i<key.length();i++){
         char[] keys = key.toCharArray();
@@ -58,7 +59,7 @@ public class WordChains {
           keys[i]= c;
           String word = String.valueOf(keys);
           if(dictionary.contains(word)){
-            dictionaryMap.get(key).add(word);
+            adjacentWords.get(key).add(word);
           }
         }
       }
@@ -92,8 +93,8 @@ public class WordChains {
     }
 
     ArrayList<Set<String>> adjacencyList = new ArrayList<>();
-    if(dictionary.contains(word1) && dictionary.contains(word2)){ // If one of the words has no adjacent words in the dictionary
-      if(dictionaryMap.get(word1).size()==0 || dictionaryMap.get(word2).size() == 0){
+    if(dictionary.contains(word1) && dictionary.contains(word2)){
+      if(adjacentWords.get(word1).size()==0 || adjacentWords.get(word2).size() == 0){
         return word1 + " " + word2 + " impossible";
       }
       adjacencyList.add(new TreeSet<String>());
@@ -107,13 +108,13 @@ public class WordChains {
         }else{
          usedWordsCount = usedWords.size();
         }
-        Set<String> nextLevel = new TreeSet<>(); // handles the next level of the tree
+        Set<String> nextLevel = new TreeSet<>(); // handles next level of the tree
         
         for(Set<String> level: adjacencyList){//for each level of the adjacency list
           for(String w: level){ //for each word in the current level of the tree
             if(!usedWords.containsKey(w)){
               usedWords.put(w, true);
-              for(String k: dictionaryMap.get(w)){
+              for(String k: adjacentWords.get(w)){
                 nextLevel.add(k);
               }
             }
@@ -132,7 +133,7 @@ public class WordChains {
       for(int i = adjacencyList.size()-2; i>= 0; i--){
         wordChain.add(currentWord);
         for(String s: adjacencyList.get(i)){
-          if(dictionaryMap.get(s).contains(currentWord)){
+          if(adjacentWords.get(s).contains(currentWord)){
             currentWord =s;
             break;
           }
@@ -150,4 +151,6 @@ public class WordChains {
   }
 
   }
+  // public static String fixedPath(String word1, String word2, int steps){
+  // }
 }
