@@ -21,24 +21,43 @@ public class WordChains {
      * Block for dealing with input, determining whether it is fixed length or
      * shortest path version
      */
+
     for (String x : problems) {
+      String first = "";
+      String second = "";
       int steps = 0;
-      if (x.split(" ").length == 3) {
-        steps = Integer.parseInt(x.split(" ")[2]);
+      boolean err = false;
+
+      try {
+        if (x.split(" ").length == 3) {
+          steps = Integer.parseInt(x.split(" ")[2]);
+        }
+      } catch (NumberFormatException e) {
+        err = true;
+        System.out.println(x + " INVALID - Third token must be an integer");
       }
-      String first = x.split(" ")[0];
-      String second = x.split(" ")[1];
-      if (steps == 0) {
-        System.out.println(shortestPath(first, second));
-      } else {
-        Stack<String> s = new Stack<>();
-        if (fixedPath(s, first, second, steps)) {
-          for (int i = 0; i < s.size(); i++) {
-            System.out.print(s.get(i) + " ");
-          }
-          System.out.println();
+
+      try {
+        first = x.split(" ")[0];
+        second = x.split(" ")[1];
+      } catch (ArrayIndexOutOfBoundsException e) {
+        err = true;
+        System.out.println(x + " INVALID - There must be at least two words in input");
+      }
+
+      if (!err) {
+        if (steps == 0) {
+          System.out.println(shortestPath(first, second));
         } else {
-          System.out.println(first + " " + second + " " + "impossible");
+          Stack<String> s = new Stack<>();
+          if (fixedPath(s, first, second, steps)) {
+            for (int i = 0; i < s.size(); i++) {
+              System.out.print(s.get(i) + " ");
+            }
+            System.out.println();
+          } else {
+            System.out.println(first + " " + second + " " + steps + " impossible");
+          }
         }
       }
     }
