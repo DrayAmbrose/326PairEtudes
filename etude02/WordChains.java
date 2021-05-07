@@ -11,14 +11,15 @@
 import java.util.*;
 
 public class WordChains {
-  private static HashMap<String, ArrayList<String>> adjacentWords = new HashMap<>(); 
+  private static HashMap<String, ArrayList<String>> adjacentWords = new HashMap<>();
   private static HashSet<String> dictionary = new HashSet<String>();
   private static ArrayList<String> problems = new ArrayList<>();
 
   public static void main(String[] args) {
     getInput();
-    /** Block for dealing with input, determining whether it is fixed length
-     * or shortest path version
+    /**
+     * Block for dealing with input, determining whether it is fixed length or
+     * shortest path version
      */
     for (String x : problems) {
       int steps = 0;
@@ -31,22 +32,22 @@ public class WordChains {
         System.out.println(shortestPath(first, second));
       } else {
         Stack<String> s = new Stack<>();
-        if(fixedPath(s, first, second, steps)){
-          for(int i = 0; i < s.size();i++){
+        if (fixedPath(s, first, second, steps)) {
+          for (int i = 0; i < s.size(); i++) {
             System.out.print(s.get(i) + " ");
           }
           System.out.println();
-        }else{
-            System.out.println(first + " " + second + " " + "impossible");
-          }
+        } else {
+          System.out.println(first + " " + second + " " + "impossible");
         }
+      }
     }
-
   }
+
   /**
-   * getInput method which gets the input from stdin and then puts
-   * input words into dictionary, and an adjacentwords list which stores
-   * each word and the adjacent words of each word.
+   * getInput method which gets the input from stdin and then puts input words
+   * into dictionary, and an adjacentwords list which stores each word and the
+   * adjacent words of each word.
    */
   private static void getInput() {
     Scanner input = new Scanner(System.in);
@@ -81,6 +82,7 @@ public class WordChains {
 
   /**
    * shortestPath method that calculates the shortest path between two words.
+   * 
    * @param word1 the word you start from.
    * @param word2 the word that you need to get to.
    * @return String the result of the search.
@@ -108,9 +110,8 @@ public class WordChains {
           usedWordsCount = usedWords.size();
         }
         Set<String> nextLevel = new TreeSet<>(); // handles next level of the tree
-
         for (Set<String> level : adjacencies) {
-          for (String w : level) { 
+          for (String w : level) {
             if (!usedWords.containsKey(w)) {
               usedWords.put(w, true);
               for (String k : adjacentWords.get(w)) {
@@ -146,14 +147,14 @@ public class WordChains {
       return chain;
     } else {
       return word1 + " " + word2 + " impossible";
-
     }
-
   }
 
   /**
-   * fixedPath method that calculates word chains of a fixed length using recursion.
-   * @param s stack to store the current path on
+   * fixedPath method that calculates word chains of a fixed length using
+   * recursion.
+   * 
+   * @param s     stack to store the current path on
    * @param word1 word to start from
    * @param word2 word to get to
    * @param steps the length of the word chain
@@ -161,15 +162,15 @@ public class WordChains {
    */
   public static boolean fixedPath(Stack<String> s, String word1, String word2, int steps) {
     s.push(word1);
-    if(word1.equals(word2)){
+    if (word1.equals(word2)) {
       return true;
     }
-    if(s.size() > steps - 1){
+    if (s.size() > steps - 1) {
       return false;
     }
-    for(String w: adjacentWords.get(word1)){
-      if(!s.contains(w)){
-        if(fixedPath(s, w, word2, steps)){
+    for (String w : adjacentWords.get(word1)) {
+      if (!s.contains(w)) {
+        if (fixedPath(s, w, word2, steps)) {
           return true;
         }
         s.pop();
