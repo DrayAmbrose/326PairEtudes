@@ -11,16 +11,15 @@
 import java.util.*;
 
 public class WordChains {
-  private static HashMap<String, ArrayList<String>> adjacentWords = new HashMap<>(); // contains every word in the
-                                                                                     // dictionary and each words
-                                                                                     // "adjacent" words
-
+  private static HashMap<String, ArrayList<String>> adjacentWords = new HashMap<>(); 
   private static HashSet<String> dictionary = new HashSet<String>();
   private static ArrayList<String> problems = new ArrayList<>();
-  private static String path = "";
 
   public static void main(String[] args) {
     getInput();
+    /** Block for dealing with input, determining whether it is fixed length
+     * or shortest path version
+     */
     for (String x : problems) {
       int steps = 0;
       if (x.split(" ").length == 3) {
@@ -32,12 +31,23 @@ public class WordChains {
         System.out.println(shortestPath(first, second));
       } else {
         Stack<String> s = new Stack<>();
-        System.out.println(fixedPath(s, first, second, steps));
-      }
+        if(fixedPath(s, first, second, steps)){
+          for(int i = 0; i < s.size();i++){
+            System.out.print(s.get(i) + " ");
+          }
+          System.out.println();
+        }else{
+            System.out.println(first + " " + second + " " + "impossible");
+          }
+        }
     }
 
   }
-
+  /**
+   * getInput method which gets the input from stdin and then puts
+   * input words into dictionary, and an adjacentwords list which stores
+   * each word and the adjacent words of each word.
+   */
   private static void getInput() {
     Scanner input = new Scanner(System.in);
     while (input.hasNextLine()) {
@@ -55,9 +65,7 @@ public class WordChains {
 
     }
     input.close();
-    int dCount; // Count lettter differences
     for (String key : adjacentWords.keySet()) {
-
       for (int i = 0; i < key.length(); i++) {
         char[] keys = key.toCharArray();
         for (char c = 'a'; c <= 'z'; c++) {
@@ -71,39 +79,25 @@ public class WordChains {
     }
   }
 
-  // for(String word: dictionary){
-  // dCount = 0;
-  // char[] wordArr = word.toCharArray();
-
-  // for(int i = 0; i < word.length(); i++){
-  // if(keys.length != word.length()){
-  // break;
-  // }else if(keys[i] != wordArr[i]) // If letters differ, increment the diff
-  // count
-  // dCount++;
-  // }
-  // if(dCount==1){ //If the difference is 1 then the words are 'adjacent'
-  // dictionaryMap.get(key).add(word);
-  // System.out.println(key + " " + word);
-
-  // }
-  // }
-  // }
-  // }
-
+  /**
+   * shortestPath method that calculates the shortest path between two words.
+   * @param word1 the word you start from.
+   * @param word2 the word that you need to get to.
+   * @return String the result of the search.
+   */
   public static String shortestPath(String word1, String word2) {
     HashMap<String, Boolean> usedWords = new HashMap<>();
     if (word1.equals(word2)) {
       return word1 + " " + word2;
     }
 
-    ArrayList<Set<String>> adjacencyList = new ArrayList<>();
+    ArrayList<Set<String>> adjacencies = new ArrayList<>();
     if (dictionary.contains(word1) && dictionary.contains(word2)) {
       if (adjacentWords.get(word1).size() == 0 || adjacentWords.get(word2).size() == 0) {
         return word1 + " " + word2 + " impossible";
       }
-      adjacencyList.add(new TreeSet<String>());
-      adjacencyList.get(0).add(word1);
+      adjacencies.add(new TreeSet<String>());
+      adjacencies.get(0).add(word1);
       boolean found = false;
       int usedWordsCount = -1;
 
@@ -115,8 +109,8 @@ public class WordChains {
         }
         Set<String> nextLevel = new TreeSet<>(); // handles next level of the tree
 
-        for (Set<String> level : adjacencyList) {// for each level of the adjacency list
-          for (String w : level) { // for each word in the current level of the tree
+        for (Set<String> level : adjacencies) {
+          for (String w : level) { 
             if (!usedWords.containsKey(w)) {
               usedWords.put(w, true);
               for (String k : adjacentWords.get(w)) {
@@ -127,17 +121,17 @@ public class WordChains {
         }
         if (nextLevel.contains(word2)) {
           found = true;
-          adjacencyList.add(nextLevel);
+          adjacencies.add(nextLevel);
         } else {
-          adjacencyList.add(nextLevel);
+          adjacencies.add(nextLevel);
         }
       }
 
       ArrayList<String> wordChain = new ArrayList<>();
       String currentWord = word2;
-      for (int i = adjacencyList.size() - 2; i >= 0; i--) {
+      for (int i = adjacencies.size() - 2; i >= 0; i--) {
         wordChain.add(currentWord);
-        for (String s : adjacencyList.get(i)) {
+        for (String s : adjacencies.get(i)) {
           if (adjacentWords.get(s).contains(currentWord)) {
             currentWord = s;
             break;
@@ -157,17 +151,30 @@ public class WordChains {
 
   }
 
-  public static Stack<String> fixedPath(Stack<String> s, String word1, String word2, int steps) {
+  /**
+   * fixedPath method that calculates word chains of a fixed length using recursion.
+   * @param s stack to store the current path on
+   * @param word1 word to start from
+   * @param word2 word to get to
+   * @param steps the length of the word chain
+   * @return boolean false if chain is not found; true otherwise.
+   */
+  public static boolean fixedPath(Stack<String> s, String word1, String word2, int steps) {
     s.push(word1);
-    System.out.println(s.size());
-    while(s.size() <= steps - 1) {
-      for (String w : adjacentWords.get(word1)) {
-        if (!s.contains(w) && w != word2) {
-          s.push(w);
-          fixedPath(s, w, word2, steps);
+    if(word1.equals(word2)){
+      return true;
+    }
+    if(s.size() > steps - 1){
+      return false;
+    }
+    for(String w: adjacentWords.get(word1)){
+      if(!s.contains(w)){
+        if(fixedPath(s, w, word2, steps)){
+          return true;
         }
+        s.pop();
       }
     }
-    return s;
+    return false;
   }
 }
