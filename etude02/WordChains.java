@@ -1,4 +1,4 @@
-
+package etude02;
 /**
  * Etude02 WordChains
  * Filename: WordChains.java
