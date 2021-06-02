@@ -1,66 +1,9 @@
-Passenger getting on at floor 2
-Passenger getting on at floor 5
-Passenger getting off at floor 6
-Passenger getting on at floor 6
-Passenger getting off at floor 7
-Passenger getting on at floor 7
-Passenger getting off at floor 8
-Passenger getting on at floor 9
-Passenger getting off at floor 4
-Passenger getting off at floor 2
-Average Elevator Travel Time for 5 Passengers: 63s
-Average Wait Time for 5 Passengers: 59s
-Passenger getting on at floor 1
-Passenger getting on at floor 1
-Passenger getting on at floor 4
-Passenger getting on at floor 5
-Passenger getting off at floor 7
-Passenger getting on at floor 7
-Passenger getting off at floor 10
-Passenger getting on at floor 9
-Passenger getting off at floor 3
-Passenger getting off at floor 2
-Passenger getting off at floor 2
-Passenger getting off at floor 1
-Passenger getting on at floor 5
-Passenger getting on at floor 6
-Passenger getting on at floor 7
-Passenger getting off at floor 8
-Passenger getting on at floor 8
-Passenger getting off at floor 7
-Passenger getting off at floor 4
-Passenger getting off at floor 1
-Average Elevator Travel Time for 10 Passengers: 93s
-Average Wait Time for 10 Passengers: 115s
-Passenger getting on at floor 1
-Passenger getting on at floor 1
-Passenger getting on at floor 2
-Passenger getting off at floor 3
-Passenger getting off at floor 3
-Passenger getting on at floor 3
-Passenger getting off at floor 4
-Passenger getting on at floor 4
-Passenger getting on at floor 5
-Passenger getting on at floor 5
-Passenger getting off at floor 9
-Passenger getting off at floor 9
-Passenger getting on at floor 9
-Passenger getting on at floor 9
-Passenger getting off at floor 8
-Passenger getting off at floor 8
-Passenger getting on at floor 8
-Passenger getting on at floor 6
-Passenger getting off at floor 5
-Passenger getting off at floor 4
-Passenger getting on at floor 6
-Passenger getting on at floor 9
-Passenger getting off at floor 10
-Passenger getting off at floor 10
-Passenger getting off at floor 10
-Passenger getting on at floor 10
-Passenger getting on at floor 10
-Passenger getting off at floor 9
-Passenger getting off at floor 4
-Passenger getting off at floor 2
-Average Elevator Travel Time for 15 Passengers: 84s
-Average Wait Time for 15 Passengers: 123s
+Average Elevator Travel Time for 5 Passengers: 88s
+Average Wait Time for 5 Passengers: 47s
+
+Average Elevator Travel Time for 15 Passengers: 86s
+Average Wait Time for 15 Passengers: 121s
+
+Average Elevator Travel Time for 30 Passengers: 88s
+Average Wait Time for 30 Passengers: 428s
+

@@ -1,5 +1,10 @@
 import java.util.*;
 
+/**
+ * Class for representing passengers in Elevator.
+ * @author Jayden Prakash - 4718680
+ * @author Dray Ambros = 9742599
+ */
 public class Person {
     Random rand = new Random();
     public int currentFloor = rand.nextInt(10)+1;
@@ -12,6 +17,7 @@ public class Person {
         this.desFloor = desFloor;
         // this.direction = direction;
         this.waitTime = 0;
+        this.travelTime = 0;
     }
 
     public int getFloor(){
