@@ -2,9 +2,10 @@ import java.util.*;
 
 public class Person {
     Random rand = new Random();
-    public int currentFloor = rand.nextInt(10);
+    public int currentFloor = rand.nextInt(10)+1;
     public int desFloor; 
     public int waitTime;
+    public int travelTime;
     public boolean direction; // True if up, false if down
 
     public Person(int desFloor){
@@ -13,15 +14,23 @@ public class Person {
         this.waitTime = 0;
     }
 
-    private int getFloor(){
+    public int getFloor(){
         return desFloor;
     }
 
-    private int getWait(){
+    public int getWait(){
         return waitTime;
     }
 
-    private void addWait(int x){
+    public int getTravel(){
+        return travelTime;
+    }
+
+    public void addWait(int x){
         this.waitTime += x;
     }
+    public void addTravel(int x){
+        this.travelTime += x;
+    }
+
 }
