@@ -19,11 +19,32 @@ public class Elevator {
     public static LinkedList<Person> passengersArrived = new LinkedList<Person>();
 
     public static void main(String[] args) {
-        collectiveControl(5);
-        collectiveControl(15);
-        collectiveControl(30);
+        longestQueue(5);
+        longestQueue(15);
+        longestQueue(30);
     }
 
+
+    /**
+     * Calculates the difference between two floors.
+     * @param a floor number 
+     * @param b floor number    
+     * @return the difference between the two floors
+     */
+    public static int floorDiff(int a, int b){
+        if(a>b){
+            return a - b;
+        }
+        else{
+            return b - a;
+        }
+    }
+
+    /**
+     * Strategy that prioritises people that have been in the elevator the longest.
+     * Goes towards first button pressed and drops off/picks up people on the way
+     * @param n the number of passengers queueing for the elevator.
+     */
     public static void longestQueue(int n) {
         int destination = 0;
         loadPassengers(n);
@@ -218,7 +239,6 @@ public class Elevator {
      * @param n number of passengers.
      */
     public static void loadPassengers(int n) {
-        Scanner sc = new Scanner(System.in);
         Random rand = new Random();
         int count = 0;
         while (count < n) {
